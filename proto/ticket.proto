@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package ticket;
+
+option go_package = "github.com/lintopaul/ticket/proto";
+
+service TicketService {
+    rpc PurchaseTicket (PurchaseRequest) returns (PurchaseResponse);
+    rpc GetReceipt (ReceiptRequest) returns (ReceiptResponse);
+    rpc GetUsersBySection (SectionRequest) returns (SectionResponse);
+    rpc RemoveUser (RemoveUserRequest) returns (RemoveUserResponse);
+    rpc ModifySeat (ModifySeatRequest) returns (ModifySeatResponse);
+}
+
+message User {
+    string first_name = 1;
+    string last_name = 2;
+    string email = 3;
+}
+
+message PurchaseRequest {
+    User user = 1;
+}
+
+message PurchaseResponse {
+    string receipt_id = 1;
+    string from = 2;
+    string to = 3;
+    User user = 4;
+    int32 price_paid = 5;
+    string seat_number = 6;
+    string section = 7;
+}
+
+message ReceiptRequest {
+    string email = 1;
+}
+
+message ReceiptResponse {
+    string receipt_id = 1;
+    string from = 2;
+    string to = 3;
+    User user = 4;
+    int32 price_paid = 5;
+    string seat_number = 6;
+    string section = 7;
+}
+
+message SectionRequest {
+    string section = 1;
+}
+
+message SectionResponse {
+    repeated SeatAllocation users = 1;
+}
+
+message SeatAllocation {
+    User user = 1;
+    string seat_number = 2;
+}
+
+message RemoveUserRequest {
+    string email = 1;
+}
+
+message RemoveUserResponse {
+    bool success = 1;
+}
+
+message ModifySeatRequest {
+    string email = 1;
+    string new_seat_number = 2;
+}
+
+message ModifySeatResponse {
+    bool success = 1;
+}
